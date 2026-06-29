@@ -1,0 +1,6 @@
+/.env
+graphify-out
+docs
+.scratch/
+.claude
+.venv
