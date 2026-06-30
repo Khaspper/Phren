@@ -4,3 +4,4 @@ docs
 .scratch/
 .claude
 .venv
+node_modules
