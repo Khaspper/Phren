@@ -12,3 +12,11 @@ test("Confirm 'parseScene' hands back a scene whose elements is a non empty arra
   const scene = parseScene(text);
   assert.ok(scene.elements.length > 0);
 });
+
+test("At least one element type is freedraw", () => {
+  const scene = parseScene(text);
+  const hasFreeDraw = scene.elements.some((e) => {
+    return e.type === "freedraw";
+  });
+  assert.ok(hasFreeDraw);
+});
