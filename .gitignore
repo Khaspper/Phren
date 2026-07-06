@@ -5,4 +5,4 @@ docs
 .claude
 .venv
 node_modules
-*/excalidraw-bundle.js
+render/page/excalidraw-bundle.js

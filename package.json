@@ -7,6 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
+    "build:renderer": "esbuild render/page/entry.js --bundle --outfile=render/page/excalidraw-bundle.js --loader:.scss=empty --loader:.css=empty --define:process.env.NODE_ENV='\"production\"'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +23,13 @@
   },
   "homepage": "https://github.com/Khaspper/Phren#readme",
   "dependencies": {
-    "lz-string": "^1.5.0"
+    "@excalidraw/excalidraw": "^0.18.1",
+    "lz-string": "^1.5.0",
+    "puppeteer": "^25.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
   }
 }

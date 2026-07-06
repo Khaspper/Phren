@@ -62,3 +62,27 @@ subprocess and reads the PNG it writes.
 The boundary between the Python pipeline and the JS renderer. We chose **Seam A**:
 the JS script takes a `.excalidraw.md` path and returns a PNG. Python knows
 nothing about Excalidraw — it just asks for a picture. See `docs/adr/0001`.
+
+## render_to_png (Python)
+
+`render_to_png(md_path) -> png_path`, in `pipeline/render.py`. A thin Python
+wrapper around the JS renderer — the [[seam]] in code. Picks a **temp file** for
+output (thrown away after use — we keep the description, not a pile of PNGs),
+locates the JS script relative to its own file (not the current directory), runs
+`node render/render-drawing.js <md> <tmp>` via `subprocess`, and returns the PNG
+path on exit 0. On non-zero exit it **raises** — fail loud, so a broken drawing
+never silently embeds as empty text.
+
+## describe (Python)
+
+`describe(png_path) -> description`, in `pipeline/describe.py`. The vision step.
+Sends the PNG to the [[vision model]] (`gemma4:12b`) via the `ollama` library
+(`ollama.chat`, image attached), pointed at the home Ubuntu server over Tailscale
+— host comes from `OLLAMA_HOST` in `.env`, which the `ollama` lib reads
+automatically. Returns **just the description text**.
+
+Key framing: **no separate handwriting transcription.** The canvas is spatial
+with no reading order, so verbatim transcription is meaningless. Instead the
+prompt asks the model to describe the drawing *and fold in any legible words* it
+can read (that text is the searchable content), without guessing at illegible
+strokes. Ollama errors propagate — fail loud.

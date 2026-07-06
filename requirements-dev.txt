@@ -1,1 +1,2 @@
 # https://www.youtube.com/watch?v=KxvKCSwlUv8
+pytest==8.4.2
